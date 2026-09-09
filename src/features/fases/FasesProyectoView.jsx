@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { ChevronDown, ChevronUp, CheckCheck, AlertCircle } from 'lucide-react';
 import { FASES_DEFECTO } from '../../constants/academicQueries';
+import { apiService } from '../../services/apiService';
 
 export function FasesProyectoView({ ficha }) {
   const raps = ficha?.resultadosAprendizaje || [];
@@ -26,11 +27,17 @@ export function FasesProyectoView({ ficha }) {
     }));
   };
 
-  const handleAssignFase = (rapCodigo, newFaseId) => {
+  const handleAssignFase = async (rapCodigo, newFaseId) => {
+    const numericFaseId = Number(newFaseId);
     setFaseAssignments(prev => ({
       ...prev,
-      [rapCodigo]: Number(newFaseId)
+      [rapCodigo]: numericFaseId
     }));
+    try {
+      await apiService.updateRapFase(rapCodigo, numericFaseId);
+    } catch (e) {
+      console.warn('Error syncing rap fase to PostgreSQL', e);
+    }
   };
 
   const statsPorFase = useMemo(() => {

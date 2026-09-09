@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Download, Play } from 'lucide-react';
 import { PREGUNTAS_ACADEMICAS, REGLAS_NEGOCIO, DICCIONARIO_DATOS } from '../../constants/academicQueries';
 import { sqlEngineService } from '../../services/sqlEngineService';
+import { apiService } from '../../services/apiService';
 
 export function ModeloLogicoView({ ficha }) {
   const [subTab, setSubTab] = useState('der');
@@ -14,6 +15,19 @@ export function ModeloLogicoView({ ficha }) {
     const q = PREGUNTAS_ACADEMICAS[idx];
     setCustomSql(q.sql);
     setQueryResult(q.run(ficha));
+  };
+
+  const handleExecuteCustomSql = async () => {
+    try {
+      const res = await apiService.executeSql(customSql);
+      if (res.success && res.columns && res.rows) {
+        setQueryResult({ columns: res.columns, rows: res.rows });
+        return;
+      }
+    } catch (err) {
+      console.warn('PostgreSQL execute failed, using simulator fallback', err);
+    }
+    setQueryResult(PREGUNTAS_ACADEMICAS[selectedQueryIndex].run(ficha));
   };
 
   const handleDownloadSql = () => {
@@ -272,7 +286,7 @@ export function ModeloLogicoView({ ficha }) {
               <button
                 className="btn btn-sm btn-primary"
                 style={{ padding: '0.2rem 0.6rem', fontSize: '0.74rem' }}
-                onClick={() => setQueryResult(PREGUNTAS_ACADEMICAS[selectedQueryIndex].run(ficha))}
+                onClick={handleExecuteCustomSql}
               >
                 <Play size={12} /> Ejecutar Query
               </button>

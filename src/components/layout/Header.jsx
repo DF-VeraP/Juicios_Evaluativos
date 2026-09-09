@@ -9,7 +9,8 @@ export function Header({
   onTabChange,
   theme,
   onToggleTheme,
-  onOpenImportModal
+  onOpenImportModal,
+  dbStatus
 }) {
   const currentFicha = fichas[selectedFichaIndex] || fichas[0];
   const meta = currentFicha?.meta || {};
@@ -42,7 +43,7 @@ export function Header({
           <div className="brand-info">
             <h1>
               <span>{import.meta.env.VITE_APP_TITLE || 'Sistema de Juicios Evaluativos'}</span>
-              <span className="badge badge-success" style={{ fontSize: '0.68rem' }}>SENA</span>
+              <span className="badge badge-success" style={{ fontSize: '0.68rem' }}>PostgreSQL 17</span>
             </h1>
             <p className="tagline">
               {import.meta.env.VITE_APP_SUBTITLE || 'Guía GA-220501096 • Análisis y Diseño Lógico de Datos'}
