@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  sena-juicios-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sena-juicios-evaluativos
+    restart: always
+    ports:
+      - "3000:80"
+    environment:
+      - NODE_ENV=production
