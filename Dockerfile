@@ -3,12 +3,12 @@
 # Sistema de Gestión de Juicios Evaluativos SENA
 # =========================================================
 
-# Etapa 1: Compilación de la aplicación
+# Etapa 1: Compilación de la aplicación (Node.js)
 FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Argumentos de entorno para Vite (Inyectables desde Dokploy)
+# Argumentos de entorno para Vite (Inyectables en build time desde Dokploy)
 ARG VITE_APP_TITLE
 ARG VITE_APP_SUBTITLE
 ARG VITE_APP_VERSION
@@ -27,20 +27,24 @@ ENV VITE_API_URL=$VITE_API_URL
 COPY package*.json ./
 RUN npm ci
 
-# Copiar código fuente y compilar
+# Copiar código fuente y compilar bundle
 COPY . .
 RUN npm run build
 
 # Etapa 2: Servidor Web Nginx ligero para producción
 FROM nginx:alpine
 
-# Copiar configuración personalizada de Nginx
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Puerto configurable por variable de entorno (por defecto 80)
+ENV PORT=80
 
-# Copiar bundle estático generado
+# Usar el mecanismo de plantillas oficial de Nginx (docker-entrypoint envsubst)
+# para que ${PORT} se reemplace automáticamente en tiempo de ejecución
+COPY nginx.conf /etc/nginx/templates/default.conf.template
+
+# Copiar bundle compilado
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Exponer puerto 80 estándar
+# Exponer puerto
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
