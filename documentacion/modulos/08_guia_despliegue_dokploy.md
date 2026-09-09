@@ -28,8 +28,17 @@ git push -u origin main
 4. **Build Type:** Selecciona **Dockerfile**.
 5. **Dockerfile Path:** `./Dockerfile` (ya configurado en la raíz).
 6. **Port Mapping / Container Port:** Configura el puerto interno en `80` (el que expone Nginx).
-7. **Domain:** Agrega tu dominio o subdominio asignado (ej: `juicios.tudominio.com`). Dokploy generará automáticamente el certificado SSL Let's Encrypt con HTTPS.
-8. Haz clic en **Deploy**. Dokploy ejecutará el build multi-stage de Node.js y servirá los estáticos optimizados con Nginx.
+7. **Environment Variables (Pestaña 'Environment' en Dokploy):**
+   Puedes configurar las variables de entorno para personalizar la aplicación:
+   ```env
+   VITE_APP_TITLE=SENA - Sistema de Juicios Evaluativos
+   VITE_APP_SUBTITLE=Guía GA-220501096 • Modelo Relacional y Analítica
+   VITE_APP_VERSION=1.0.0
+   VITE_DEFAULT_REGIONAL=18 - REGIONAL CAQUETÁ
+   VITE_DEFAULT_CENTRO=9516 - CENTRO TECNOLOGICO DE LA AMAZONIA
+   ```
+8. **Domain:** Agrega tu dominio o subdominio asignado (ej: `juicios.tudominio.com`). Dokploy generará automáticamente el certificado SSL Let's Encrypt con HTTPS.
+9. Haz clic en **Deploy**. Dokploy inyectará las variables durante el build multi-stage y servirá los estáticos optimizados con Nginx.
 
 ---
 

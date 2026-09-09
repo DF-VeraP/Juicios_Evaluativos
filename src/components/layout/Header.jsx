@@ -41,11 +41,11 @@ export function Header({
 
           <div className="brand-info">
             <h1>
-              <span>Sistema de Juicios Evaluativos</span>
+              <span>{import.meta.env.VITE_APP_TITLE || 'Sistema de Juicios Evaluativos'}</span>
               <span className="badge badge-success" style={{ fontSize: '0.68rem' }}>SENA</span>
             </h1>
             <p className="tagline">
-              Guía GA-220501096 • Análisis y Diseño Lógico de Datos
+              {import.meta.env.VITE_APP_SUBTITLE || 'Guía GA-220501096 • Análisis y Diseño Lógico de Datos'}
             </p>
           </div>
         </div>

@@ -1,5 +1,5 @@
 # =========================================================
-# DOCKERFILE MULTI-STAGE PARA DOKPLOY
+# DOCKERFILE MULTI-STAGE PARA DOKPLOY (CON SOPORTE .ENV)
 # Sistema de Gestión de Juicios Evaluativos SENA
 # =========================================================
 
@@ -7,6 +7,21 @@
 FROM node:20-alpine AS builder
 
 WORKDIR /app
+
+# Argumentos de entorno para Vite (Inyectables desde Dokploy)
+ARG VITE_APP_TITLE
+ARG VITE_APP_SUBTITLE
+ARG VITE_APP_VERSION
+ARG VITE_DEFAULT_REGIONAL
+ARG VITE_DEFAULT_CENTRO
+ARG VITE_API_URL
+
+ENV VITE_APP_TITLE=$VITE_APP_TITLE
+ENV VITE_APP_SUBTITLE=$VITE_APP_SUBTITLE
+ENV VITE_APP_VERSION=$VITE_APP_VERSION
+ENV VITE_DEFAULT_REGIONAL=$VITE_DEFAULT_REGIONAL
+ENV VITE_DEFAULT_CENTRO=$VITE_DEFAULT_CENTRO
+ENV VITE_API_URL=$VITE_API_URL
 
 # Instalar dependencias
 COPY package*.json ./
