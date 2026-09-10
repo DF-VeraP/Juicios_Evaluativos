@@ -25,7 +25,7 @@ ENV VITE_API_URL=$VITE_API_URL
 
 # Instalar dependencias
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 
 # Copiar código fuente y compilar bundle
 COPY . .
