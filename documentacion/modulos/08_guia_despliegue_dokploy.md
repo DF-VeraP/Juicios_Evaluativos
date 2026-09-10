@@ -56,9 +56,9 @@ git push -u origin main
        container_name: sena-juicios-evaluativos
        restart: always
        ports:
-         - "3000:80"
+         - "8000:80"
    ```
-3. Configura el enrutamiento del proxy apuntando al puerto `3000` del host o `80` del servicio.
+3. Configura el enrutamiento del proxy o accede directamente vía `http://IP_VPS:8000` (o vinculando un dominio con SSL en Dokploy apuntando al puerto `8000`).
 4. Haz clic en **Deploy**.
 
 ---
