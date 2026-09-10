@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  sena-juicios-app:
+  juicios-evaluativos:
     build:
       context: .
       dockerfile: Dockerfile
